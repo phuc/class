@@ -1,0 +1,73 @@
+<p>
+  <b>Title:</b>
+  <%= @issue.title %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @issue.description %>
+</p>
+<p>
+  <b>Created At:</b>
+  <%= @issue.created_at.strftime(AppConfig.time_format) %>
+</p>
+<p>
+  <b>Status:</b>
+  <% if @issue.status == Issue::STA_RESOLVED %>
+    <%= @issue.status.capitalize %>
+  <% else %>
+    <% if can? :change_status, Issue %>
+      <a href="javascript:;" id="status" data-type="select" data-value="<%= @issue.status %>" data-resource="issue" data-url="<%= issue_path(@issue) %>" data-title="Update Status" data-name="status"><%= @issue.status.capitalize %></a>
+    <% else %>
+      <%= @issue.status.capitalize %>
+    <% end %>
+  <% end %>
+  
+</p>
+
+<% if @issue.status == Issue::STA_RESOLVED %>
+<p>
+  <b>Resolved by:</b>
+  <%= @issue.resolver.username %>
+<% end %>
+
+<br/>
+<% @issue.responses.each do |response| %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <b><%= response.user.username %></b> wrote at <b><%= response.created_at.strftime(AppConfig.time_format) %></b>:
+  </div>
+  <div class="panel-body">
+    <%= response.message %>
+  </div>
+</div>
+<% end %>
+<br/>
+<div class="panel panel-default">
+  <div class="panel-heading">New Response:</div>
+  <div class="panel-body">
+    <%= simple_form_for([@issue, @issue.responses.build]) do |f| %>
+      <%= f.error_notification %>
+
+      <div class="form-inputs">
+        <%= f.input :message, input_html: {class: "span11 input-xlarge", rows: 8} %>
+      </div>
+
+      <div class="form-actions">
+        <%= f.button :submit, class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
+<% content_for :javascript do %>
+<script>
+$(document).ready(function(){
+  //turn to inline mode
+  $.fn.editable.defaults.mode = 'inline';
+  
+  $('#status').editable({    
+    source: <%= raw [Issue::STA_CREATED, Issue::STA_WORKING, Issue::STA_RESOLVED].collect {|x| {value: x, text: x.capitalize}}.to_json %>
+  });  
+});
+</script>
+<% end %>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render "layouts/head_meta" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+  <%= yield :head %>  
+</head>
+<body>
+  <div id="wrap">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="cascade-head">
+        <div class="container">
+          <h2 class="pull-left">Cascade License and Support System</h2>
+          <a class="pull-right" href="/">
+            <img src="/assets/logo.png" class="logo">
+          </a>
+          
+        </div>
+      </div>
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button"class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <div class="nav-collapse collapse">
+            <% if user_signed_in? %>
+            <ul class="nav">
+              <li class="<%= menu_active("homes") %>">
+                <a href="<%= homes_path %>"><i class="icon-home icon-white"></i> Home</a>
+              </li>
+              
+              <li class="<%= menu_active("issues") %>">
+                <a href="<%= issues_path %>"><i class="icon-th-list icon-white"></i> Issues</a>
+              </li>              
+            </ul>
+            <ul class="nav pull-right">
+              <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;">
+                  Welcome <%= current_user.username %>
+                  <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                  <% if current_user.has_role? :admin %>
+                  <li><%= link_to "Manage Users", users_path %></li>
+                  <% end %>
+                  <li><%= link_to "Sign out", destroy_user_session_path, :method=>:delete %></li>
+                </ul>
+              </li>
+            </ul>
+            
+            <% else %>
+            <ul class="nav">
+              <li class="<%= current_page_active(new_user_session_path) %> <%= current_page_active(root_path) %>">
+                <a href="<%= new_user_session_path %>">Sign In</a>
+              </li>
+              <li class="<%= current_page_active(new_user_password_path) %>">
+                <a href="<%= new_user_password_path %>">Forgot Password</a>
+              </li>
+            </ul>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>  
+    <div class="main container">
+      <%= render partial: "layouts/flash_message" %>
+      <%= yield %>         
+    </div>
+    <div id="push"></div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <p class="muted credit">&copy; Cascade Technologies, Inc. <%= Date.today.year %></p>
+    </div>
+  </div>
+  <%= yield :javascript %>  
+</body>
+</html>

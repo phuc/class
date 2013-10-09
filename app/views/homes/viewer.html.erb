@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="span12">
+    <div class="tabbable"> <!-- Only required for left/right tabs -->
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#tab1" data-toggle="tab">Image</a></li>
+        <li><a href="#tab2" data-toggle="tab">Histogram</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane active" id="tab1">
+          <h3>Image</h3>
+          <ul id="zoom-tabs" class="nav nav-pills nav-tabs">
+          	<li class="active"> 
+          		<a class="mode-selectable" href="javascript:;" data-mode="move">Move</a> 
+          	</li>
+          	<li>
+          		<a class="mode-selectable" href="javascript:;" data-mode="select">Select</a>
+          	</li>
+          	<li class="pull-right">
+          	  <a href="javascript:;" onclick="window.close()">Close</a>
+          	</li>
+          </ul>
+          <div id="canvasWrapper" style="width:100; text-align:center">
+            <canvas id="imgCanvas" style="border: 1px solid #CCC"></canvas>
+          </div>
+        </div>
+        <div class="tab-pane" id="tab2">
+          <h3>Histogram</h3>
+          <canvas id="preview" class="pull-left"></canvas>
+          <canvas id="histogram" width="640" height="480" class="pull-left"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<% content_for :javascript do %>
+<%= javascript_include_tag "jquery-waddax", "viewer" %>
+<script>
+$(".mode-selectable").click(function(){
+  if ($(this).data("mode") == "move") {
+    zoomr.deactivate();
+    enableMove();
+  }
+  else {
+    disableMove();
+    zoomr.activate();
+  }
+  $(".mode-selectable").parent().removeClass("active");
+  $(this).parent().addClass("active");
+});
+$(window).load(function(){
+  histCanvas = $('#histogram')[0];
+  histCtx = histCanvas.getContext('2d');
+     
+  imgCanvas = $("#imgCanvas")[0];
+  ctx = imgCanvas.getContext('2d');
+  
+  imgObj = new Image();  
+  imgObj.onload = function(){
+    trackTransforms(ctx);
+  	redraw();
+  }
+  imgObj.src = "<%= params[:path] %>";
+  imgCanvas.width = parseInt($("#canvasWrapper").width() - 20); // 20px padding
+  imgCanvas.height = parseInt(imgCanvas.width * 0.75); // set 4/3 ratio
+  lastX=imgCanvas.width/2, lastY=imgCanvas.height/2;  			
+	enableMove();
+	zoomr = new $.Waddax(imgCanvas, {fadeLens: true, lensRadius: 100, zoom: 1});
+});
+</script>
+<% end %>

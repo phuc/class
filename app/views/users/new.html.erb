@@ -1,0 +1,12 @@
+<h2>New User</h2>
+<%= simple_form_for(@user, :as => "user", :url => users_path, :html => {:class => 'form-vertical' }) do |f| %>
+  <%= f.error_notification %>
+  <%= display_base_errors @user %>  
+  <%= f.input :username, :required => true, :autofocus => true %>
+  <%= f.input :email, :required => true %>
+  <%= f.input :first_name %>
+  <%= f.input :last_name %>
+  <%= f.input :password, :required => true %>
+  <%= f.input :password_confirmation, :required => true %>
+  <%= f.button :submit, 'Create', :class => 'btn-primary' %>
+<% end %>

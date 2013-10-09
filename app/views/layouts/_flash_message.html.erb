@@ -1,0 +1,15 @@
+<% if not flash.empty? %>
+<div id="flash-messages">
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+  	<div class="flash-padding">
+	    <div class="alert alert-<%= name == :notice ? "success" : "error" %>">
+	      <a class="close" data-dismiss="alert">&#215;</a>
+	      <%= content_tag :div, raw(msg), :id => "flash_#{name}" %>
+	    </div>
+	</div>
+    <% flash.delete(name) %>
+  <% end %>
+<% end %>
+</div>
+<% end %>

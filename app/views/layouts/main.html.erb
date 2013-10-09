@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%= render "layouts/head_meta" %>
+  <%= stylesheet_link_tag "application", :media => "all" %>
+  <%= javascript_include_tag "application" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <div id="wrap">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">          
+          <a class="brand" href="/">CTWI</a>
+          <% if logged_in? %>
+          <div class="navbar-text pull-right">
+            <p>
+              Welcome <%= @username %>!&nbsp;|&nbsp;
+              <%= link_to "Sign out", signout_path, :method=>:delete %>
+            </p>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>  
+    <div class="main container">
+      <%= render partial: "layouts/flash_message" %>
+      
+      <%= yield %>         
+    </div>
+    <div id="push"></div>
+  </div>
+  <div id="footer">
+    <div class="container">
+      <p class="muted credit">&copy; Cascade Technologies, Inc. <%= Date.today.year %></p>
+    </div>
+  </div>
+</body>
+</html>

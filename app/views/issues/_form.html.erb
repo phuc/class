@@ -1,0 +1,13 @@
+<%= simple_form_for(@issue, html: {class: "form-horizontal"}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.input :title, input_html: {class: "span8 input-xlarge"} %>
+    <%= f.input :description, input_html: {class: "span8 input-xlarge", rows: 8} %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class=>"btn btn-primary" %>
+    <%= link_to 'Back', issues_path, :class=>"btn btn-button" %>
+  </div>
+<% end %>

@@ -1,0 +1,27 @@
+<h1>Issues
+  <% if can? :create, Issue %>
+    <%= link_to 'Create a New Issue', new_issue_path, :class=>"btn btn-primary pull-right" %>
+  <% end %>
+</h1>
+
+<table class="table table-striped">
+  <tr>
+    <th>Title</th>
+    <th>Description</th>
+    <th>Status</th>
+    <th>Created At</th>
+  </tr>
+<% if @issues.empty? %>
+  <tr><td colspan="4">There are no issues.</td></tr>
+<% end %>
+<% @issues.each do |issue| %>
+  <tr>
+    <td><%= link_to issue.title, issue %></td>
+    <td><%= issue.description %></td>
+    <td><%= issue.status.capitalize %></td>
+    <td><%= issue.created_at.strftime("%m/%d/%Y %I:%M %p") %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />

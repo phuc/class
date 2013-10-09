@@ -1,0 +1,29 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  hello: "Hello world"
+  errors:
+    ruby_not_installed: "Please install ruby 1.9.3 before first."
+    not_ruby_193: "Please install ruby 1.9.3 before first."
+    bundle_not_install: "Please install Bundler gem first."
+    no_start_script: "Please copy spawn.sh to your home directory."
+    no_stop_script: "Please copy stop.sh to your home directory."
+    start_script_not_executable: "Please make spawn.sh executable"
+    stop_script_not_executable: "Please make stop.sh executable"
+    failed_to_start: "Failed to start session. Please try again later."
+  
+  tools:
+    cliff_name: "Cliff"
+    cliff_desc: "The incompressible non-reacting solver"
+    
+    vida_name: "Vida"
+    vida_desc: "Multiphysics Flow Solver"
+    
+    charles_name: "Charles"
+    charles_desc: "Compressible Flow Solver"
+    
+    chris_name: "Chris"
+    chris_desc: "Compressible Reacting Flow Solver"
+    
+  no_runs: "(No Run)"

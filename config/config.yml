@@ -1,0 +1,16 @@
+defaults: &defaults
+  roles:
+    - admin
+    - staff
+    - super_user
+    - user
+  default_role: user
+  time_format: "%m/%d/%Y %I:%M %p"
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults
